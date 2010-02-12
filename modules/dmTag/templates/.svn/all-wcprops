@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTag/templates
+END
+_list.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTag/templates/_list.php
+END
+_show.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTag/templates/_show.php
+END
+_popular.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTag/templates/_popular.php
+END

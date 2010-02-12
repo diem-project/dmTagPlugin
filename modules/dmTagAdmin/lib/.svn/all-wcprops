@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTagAdmin/lib
+END
+DmTagAdminForm.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTagAdmin/lib/DmTagAdminForm.php
+END
+DmTagAdminExport.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTagAdmin/lib/DmTagAdminExport.class.php
+END
+dmTagAdminGeneratorHelper.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTagAdmin/lib/dmTagAdminGeneratorHelper.class.php
+END
+dmTagAdminGeneratorConfiguration.class.php
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/!svn/ver/27788/plugins/dmTagPlugin/modules/dmTagAdmin/lib/dmTagAdminGeneratorConfiguration.class.php
+END

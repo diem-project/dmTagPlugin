@@ -1,0 +1,12 @@
+js:
+
+  dmTagPlugin:
+
+    fcbkcomplete:     jquery.fcbkcomplete.min
+    launcher:         launcher
+
+css:
+  
+  dmTagPlugin:
+
+    fcbkcomplete:     fcbkcomplete
