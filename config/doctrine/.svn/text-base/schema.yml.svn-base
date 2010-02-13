@@ -1,3 +1,0 @@
-DmTag:
-  columns:
-    name:       { type: string(255), notnull: true, unique: true }
