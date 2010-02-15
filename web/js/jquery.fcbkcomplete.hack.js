@@ -1,4 +1,7 @@
 /*
+ *Diem Hack: disabled xssPrevent
+ *
+ *
  FCBKcomplete 2.6.1
  - Jquery version required: 1.2.x, 1.3.x
  
@@ -616,11 +619,7 @@ jQuery(
 		        }
 				
 				function xssPrevent(string)
-                {					
-                    string = string.replace(/[\"\'][\s]*javascript:(.*)[\"\']/g, "\"\"");
-                    string = string.replace(/script(.*)/g, "");    
-                    string = string.replace(/eval\((.*)\)/g, "");
-                    string = string.replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '');
+                {
                     return string;
                 }
 				
