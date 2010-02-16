@@ -34,7 +34,7 @@ class sfWidgetFormDmTagsAutocomplete extends sfWidgetFormSelect
   public function getStylesheets()
   {
     return array_merge(parent::getStylesheets(), array(
-      'dmTagPlugin.fcbkcomplete' => array()
+      'dmTagPlugin.fcbkcomplete' => null
     ));
   }
 }
