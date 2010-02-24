@@ -11,6 +11,12 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
   {
     $cache = $e->getSubject()->get('cache_manager')->getCache('dm_tag');
 
+    $taggableModels = $this->getTaggableModels($cache);
+
+    $taggableModels = $this->dispatcher->filter(new sfEvent(
+      $this, 'dm_tag.taggable_models.filter', array()
+    ), $taggableModels)->getReturnValue();
+
     foreach($this->getTaggableModels($cache) as $model)
     {
       dmDb::table($model);
@@ -66,11 +72,11 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
     }
 
     $models = array();
-    foreach(dmProject::getAllModels() as $model)
+    foreach(glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/base/Base*.class.php')) as $modelBaseFile)
     {
-      if(dmDb::table($model)->hasTemplate('DmTaggable'))
+      if(strpos(file_get_contents($modelBaseFile), 'new Doctrine_Template_DmTaggable('))
       {
-        $models[] = $model;
+        $models[] = preg_replace('|^Base(\w+).class.php$|', '$1', basename($modelBaseFile));
       }
     }
 
