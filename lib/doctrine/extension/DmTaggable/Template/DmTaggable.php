@@ -66,6 +66,11 @@ class Doctrine_Template_DmTaggable extends Doctrine_Template
 
   public function setTags($tags)
   {
+    if(empty($tags))
+    {
+      $tags = array();
+    }
+    
     $tagIds = $this->getTagIds($tags);
     $this->getInvoker()->unlink('Tags');
     $this->getInvoker()->link('Tags', $tagIds);
