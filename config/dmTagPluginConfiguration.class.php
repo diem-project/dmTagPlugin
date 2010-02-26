@@ -28,6 +28,8 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
     }
 
     $this->dispatcher->connect('dm.admin_generator_builder.config', array($this, 'listenToAdminGeneratorBuilderConfig'));
+
+    $this->dispatcher->connect('dm.table.filter_seo_columns', array($this, 'listenToTableFilterSeoColumns'));
   }
 
   public function listenToAdminGeneratorBuilderConfig(sfEvent $event, array $config)
@@ -44,6 +46,16 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
     }
 
     return $config;
+  }
+
+  public function listenToTableFilterSeoColumns(sfEvent $event, array $seoColumns)
+  {
+    if($event->getSubject()->hasTemplate('DmTaggable'))
+    {
+      $seoColumns[] = 'tags_string';
+    }
+
+    return $seoColumns;
   }
 
   public function listenToFormPostConfigureEvent(sfEvent $event)
