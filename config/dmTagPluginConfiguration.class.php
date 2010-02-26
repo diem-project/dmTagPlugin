@@ -68,7 +68,9 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
         array('choices' => $form->getObject()->getTagNames())
       ));
 
-      $form->setValidator('tags', new sfValidatorDmTagsAutocomplete());
+      $form->setValidator('tags', new sfValidatorDmTagsAutocomplete(array(
+        'required' => false
+      )));
     }
   }
 
