@@ -6,7 +6,16 @@ foreach ($dmTags as $dmTag)
 {
   echo _open('li.element');
 
-    echo _link($dmTag)->text($dmTag->name.' ('.$dmTag->total_num.')');
+    $tagText = $dmTag->name.' ('.$dmTag->total_num.')';
+
+    if($dmTag->hasDmPage())
+    {
+      echo _link($dmTag)->text($tagText);
+    }
+    else
+    {
+      echo $tagText;
+    }
 
   echo _close('li');
 }

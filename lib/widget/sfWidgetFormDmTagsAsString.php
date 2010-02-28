@@ -23,7 +23,6 @@ class sfWidgetFormDmTagsAutocomplete extends sfWidgetFormSelect
   protected function getOptionsForSelect($value, $choices)
   {
     $choices = dmArray::valueToKey($choices);
-    $value = $choices;
 
     $html = parent::getOptionsForSelect($choices, $choices);
 

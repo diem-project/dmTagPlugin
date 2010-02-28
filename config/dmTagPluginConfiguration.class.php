@@ -9,19 +9,6 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
 
   public function listenToDmContextLoaded(sfEvent $e)
   {
-    $cache = $e->getSubject()->get('cache_manager')->getCache('dm_tag');
-
-    $taggableModels = $this->getTaggableModels($cache);
-
-    $taggableModels = $this->dispatcher->filter(new sfEvent(
-      $this, 'dm_tag.taggable_models.filter', array()
-    ), $taggableModels)->getReturnValue();
-
-    foreach($this->getTaggableModels($cache) as $model)
-    {
-      dmDb::table($model);
-    }
-
     if($this->configuration instanceof dmAdminApplicationConfiguration)
     {
       $this->dispatcher->connect('form.post_configure', array($this, 'listenToFormPostConfigureEvent'));
@@ -72,30 +59,5 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
         'required' => false
       )));
     }
-  }
-
-  /**
-   * @param sfCache $cache
-   * @return array models that act as DmTaggable
-   */
-  public function getTaggableModels(sfCache $cache)
-  {
-    if($cache->has('taggable_models'))
-    {
-      return $cache->get('taggable_models');
-    }
-
-    $models = array();
-    foreach(glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/base/Base*.class.php')) as $modelBaseFile)
-    {
-      if(strpos(file_get_contents($modelBaseFile), 'new Doctrine_Template_DmTaggable('))
-      {
-        $models[] = preg_replace('|^Base(\w+).class.php$|', '$1', basename($modelBaseFile));
-      }
-    }
-
-    $cache->set('taggable_models', $models);
-
-    return $models;
   }
 }

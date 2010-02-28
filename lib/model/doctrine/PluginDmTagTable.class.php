@@ -3,6 +3,8 @@
  */
 class PluginDmTagTable extends myDoctrineTable
 {
+  protected
+  $taggableModelsLoaded = false;
 
   public function getTagNames()
   {
@@ -15,13 +17,18 @@ class PluginDmTagTable extends myDoctrineTable
   {
     if (empty($relations))
     {
+      $this->loadTaggableModels();
+      
       $relations = array_keys($this->getRelationHolder()->getAssociations());
-    }
-    $relations = (array) $relations;
 
-    if(empty($relations))
+      if(empty($relations))
+      {
+        throw new dmException('There is no taggable model');
+      }
+    }
+    else
     {
-      throw new dmException('There is no taggable model');
+      $relations = (array) $relations;
     }
 
     $q = $q ? $q : $this->createQuery('t')->select('t.*');
@@ -53,8 +60,54 @@ class PluginDmTagTable extends myDoctrineTable
 
   public function getPopularTags($relations = null, $limit = null, $hydrationMode = Doctrine::HYDRATE_RECORD)
   {
-    $q = $this->getPopularTagsQuery($relations, $limit);
+    return $this->getPopularTagsQuery($relations, $limit)->execute(array(), $hydrationMode);
+  }
 
-    return $q->execute(array(), $hydrationMode);
+  protected function loadTaggableModels()
+  {
+    if(!$this->taggableModelsLoaded)
+    {
+      $taggableModels = $this->getTaggableModels();
+
+      $taggableModels = $this->getEventDispatcher()->filter(new sfEvent(
+        $this, 'dm_tag.taggable_models.filter', array()
+      ), $taggableModels)->getReturnValue();
+
+      foreach($taggableModels as $model)
+      {
+        dmDb::table($model);
+      }
+
+      $this->taggableModelsLoaded = true;
+    }
+  }
+
+  /**
+   * @return array models that act as DmTaggable
+   */
+  public function getTaggableModels()
+  {
+    $cacheManager = $this->getService('cache_manager');
+    
+    if($cacheManager && $cacheManager->getCache('dm_tag')->has('taggable_models'))
+    {
+      return $cacheManager->getCache('dm_tag')->get('taggable_models');
+    }
+
+    $models = array();
+    foreach(glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/base/Base*.class.php')) as $modelBaseFile)
+    {
+      if(strpos(file_get_contents($modelBaseFile), 'new Doctrine_Template_DmTaggable('))
+      {
+        $models[] = preg_replace('|^Base(\w+).class.php$|', '$1', basename($modelBaseFile));
+      }
+    }
+
+    if($cacheManager)
+    {
+      $cacheManager->getCache('dm_tag')->set('taggable_models', $models);
+    }
+
+    return $models;
   }
 }
