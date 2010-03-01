@@ -10,4 +10,10 @@
  */
 abstract class PluginDmTagForm extends BaseDmTagForm
 {
+  public function setup()
+  {
+    $this->getObject()->getTable()->loadTaggableModels();
+    
+    parent::setup();
+  }
 }

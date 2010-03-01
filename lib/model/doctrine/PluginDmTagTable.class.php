@@ -63,7 +63,7 @@ class PluginDmTagTable extends myDoctrineTable
     return $this->getPopularTagsQuery($relations, $limit)->execute(array(), $hydrationMode);
   }
 
-  protected function loadTaggableModels()
+  public function loadTaggableModels()
   {
     if(!$this->taggableModelsLoaded)
     {

@@ -11,6 +11,8 @@ class DmTagAdminForm extends BaseDmTagForm
 {
   public function configure()
   {
+    $this->getObject()->getTable()->loadTaggableModels();
+    
     parent::configure();
   }
 }
