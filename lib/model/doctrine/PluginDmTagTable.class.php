@@ -94,20 +94,25 @@ class PluginDmTagTable extends myDoctrineTable
       return $cacheManager->getCache('dm_tag')->get('taggable_models');
     }
 
-    $models = array();
-    foreach(glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/base/Base*.class.php')) as $modelBaseFile)
+    $modelBaseFiles = array_merge(
+      glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/base/Base*.class.php')),
+      glob(dmOs::join(sfConfig::get('sf_lib_dir'), 'model/doctrine/*Plugin/base/Base*.class.php'))
+    );
+
+    $taggableModels = array();
+    foreach($modelBaseFiles as $modelBaseFile)
     {
       if(strpos(file_get_contents($modelBaseFile), 'new Doctrine_Template_DmTaggable('))
       {
-        $models[] = preg_replace('|^Base(\w+).class.php$|', '$1', basename($modelBaseFile));
+        $taggableModels[] = preg_replace('|^Base(\w+).class.php$|', '$1', basename($modelBaseFile));
       }
     }
 
     if($cacheManager)
     {
-      $cacheManager->getCache('dm_tag')->set('taggable_models', $models);
+      $cacheManager->getCache('dm_tag')->set('taggable_models', $taggableModels);
     }
 
-    return $models;
+    return $taggableModels;
   }
 }
