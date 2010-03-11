@@ -140,13 +140,15 @@ class Doctrine_Template_DmTaggable extends Doctrine_Template
       $tagsList = array();
       if (!empty($tagNames))
       {
+        $existingTagQuery = dmDb::table($this->_options['tagClass'])
+        ->createQuery('t')
+        ->where('t.name = ?');
+        
         foreach ($tagNames as $tagName)
         {
           //check if tag is existing in db
-          $_existingTag = dmDb::table($this->_options['tagClass'])
-                  ->createQuery('t')
-                  ->where('t.name = ?', $tagName)
-                  ->fetchArray();
+          $_existingTag = $existingTagQuery->fetchArray(array($tagName));
+
           //if tag is not in db, insert tag 
           if (!$_existingTag[0])
           {
@@ -154,7 +156,9 @@ class Doctrine_Template_DmTaggable extends Doctrine_Template
             $tag->set('name', $tagName);
             $tag->save();
             $tagsList[] = $tag->get('id');
-          } else {
+          }
+          else
+          {
             $tagsList[] = $_existingTag[0]['id'];
           }
         }
