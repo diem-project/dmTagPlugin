@@ -17,6 +17,16 @@ class dmTagPluginConfiguration extends sfPluginConfiguration
     $this->dispatcher->connect('dm.admin_generator_builder.config', array($this, 'listenToAdminGeneratorBuilderConfig'));
 
     $this->dispatcher->connect('dm.table.filter_seo_columns', array($this, 'listenToTableFilterSeoColumns'));
+  
+    $this->dispatcher->connect('dm.admin_generator.post_configure', array($this, 'listenToAdminGeneratorPostConfigureEvent'));
+  }
+
+  public function listenToAdminGeneratorPostConfigureEvent(sfEvent $event)
+  {
+    if($event['table'] instanceof DmTagTable)
+    {
+      $event['table']->loadTaggableModels();
+    }
   }
 
   public function listenToAdminGeneratorBuilderConfig(sfEvent $event, array $config)
