@@ -6,6 +6,13 @@ class PluginDmTagTable extends myDoctrineTable
   protected
   $taggableModelsLoaded = false;
 
+  public function getAdminListQuery(dmDoctrineQuery $query)
+  {
+    $this->loadTaggableModels();
+
+    return parent::getAdminListQuery($query);
+  }
+
   public function getTagNames()
   {
     return $this->createQuery('t')

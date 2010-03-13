@@ -26,7 +26,10 @@ class Doctrine_Template_DmTaggable extends Doctrine_Template
   {
     $this->_plugin->initialize($this->_table);
 
-    dmDb::table($this->_options['tagClass'])->bind(array($this->_table->getComponentName(), array(
+    $className = $this->_table->getComponentName();
+
+    dmDb::table($this->_options['tagClass'])->bind(array($className.' as '.$className.'s', array(
+      'class'    => $className,
       'local'    => 'dm_tag_id',
       'foreign'  => 'id',
       'refClass' => $this->_plugin->getTable()->getOption('name')
