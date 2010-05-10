@@ -122,4 +122,16 @@ class PluginDmTagTable extends myDoctrineTable
 
     return $taggableModels;
   }
+
+  /**
+   * Find a tag by its name
+   * @param   string  $name
+   * @return  DmTag   the founded DmTag, or null
+   */
+  public function findOneByName($name)
+  {
+    return $this->createQuery('r')
+    ->where('r.name = ?', $name)
+    ->fetchRecord();
+  }
 }
